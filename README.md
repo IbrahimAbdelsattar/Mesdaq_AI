@@ -37,7 +37,7 @@
     └──────────┘  └──────────┘  └──────────┘  └──────────┘
          ↓              ↓              ↓
     ┌──────────┐  ┌──────────┐  ┌──────────┐
-    │Fine-tuned│ │OpenRouter│  │ SQLite   │
+    │Fine-tuned│  │OpenRouter│  │ SQLite   │
     │ AraBERT  │  │API Key   │  │Database  │
     │ Model    │  │          │  │          │
     └──────────┘  └──────────┘  └──────────┘
