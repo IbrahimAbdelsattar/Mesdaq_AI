@@ -6,7 +6,11 @@
 
 **Status:** ✅ NTI Final Project - Production Ready  
 **Last Updated:** January 8, 2026  
-**Team:** 4 AI Engineers (إبراهيم عبدالستار، يوسف أبو زيد، ياسين، طه)
+**Team:** 4 AI Engineers:
+1- Ibrahim Abdelsattar
+2- Youssif AboZaid
+3-Taha Atta
+4- Yassein Ahmed
 
 ---
 
