@@ -5,9 +5,11 @@
 **Mesdaq AI** is a comprehensive full-stack application for detecting fake news in Arabic language. It combines advanced machine learning with large language models to analyze news credibility, sentiment, and authenticity. The system provides detailed explanations for each classification using AI-powered reasoning.
 
 **Status:** ✅ NTI Final Project - Production Ready  
-**Last Updated:** January 8, 2026  
-<<<<<<< HEAD
-**Team:** 4 AI Engineers (إبراهيم عبدالستار، يوسف أبو زيد، ياسين، طه)
+**Team:** 4 AI Engineers:
+- Ibrahim Abdelsattar
+- Yassein Ahmed
+- Taha Atta
+- Youssif AboZaid
 =======
 **Team:** 4 AI Engineers:
 1- Ibrahim Abdelsattar
@@ -711,3 +713,4 @@ Proprietary - Mesdaq AI Project
 **Last Updated:** January 8, 2026  
 **Version:** 1.0.0  
 **Status:** ✅ Complete & Ready for Production
+
