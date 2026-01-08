@@ -41,7 +41,13 @@ class LLMExplainer:
         """
         
         if not self.api_key:
-            return self._get_fallback_explanation(is_fake, model_confidence), 0, 0
+            return self._get_fallback_explanation(
+                is_fake=is_fake,
+                sentiment=sentiment,
+                is_clickbait=is_clickbait,
+                entities=entities,
+                news_text=news_text
+            ), 0, 0
         
         prompt = self._build_prompt(
             news_text, is_fake, model_confidence, sentiment, is_clickbait, entities
@@ -74,7 +80,13 @@ class LLMExplainer:
             
             if response.status_code != 200:
                 logger.error(f"OpenRouter API error: {response.status_code} - {response.text}")
-                return self._get_fallback_explanation(is_fake, model_confidence), 0, 0
+                return self._get_fallback_explanation(
+                    is_fake=is_fake,
+                    sentiment=sentiment,
+                    is_clickbait=is_clickbait,
+                    entities=entities,
+                    news_text=news_text
+                ), 0, 0
             
             data = response.json()
             explanation = data["choices"][0]["message"]["content"].strip()
@@ -85,7 +97,13 @@ class LLMExplainer:
             
         except Exception as e:
             logger.error(f"Error calling OpenRouter API: {str(e)}")
-            return self._get_fallback_explanation(is_fake, model_confidence), 0, 0
+            return self._get_fallback_explanation(
+                is_fake=is_fake,
+                sentiment=sentiment,
+                is_clickbait=is_clickbait,
+                entities=entities,
+                news_text=news_text
+            ), 0, 0
     
     def _build_prompt(
         self,
@@ -121,29 +139,99 @@ class LLMExplainer:
 3. تجنب المصطلحات التقنية المعقدة. خاطب المستخدم العادي.
 4. إذا كان الخبر "حقيقي"، ركز على توازن اللغة ووجود مؤشرات المصداقية.
 5. إذا كان الخبر "مزيف"، ركز على أسلوب الإثارة أو الغموض أو المبالغة.
+6. لا تذكر نسبة الثقة أو أي نسب مئوية في الشرح (مثل "بنسبة ثقة X%") لأنها معروضة بالفعل في الواجهة.
 
 المطلوب إخراج JSON فقط:
 {{
-  "explanation": "شرح متزن (3-4 جمل) يوضح الأسباب اللغوية والنمطية للنتيجة.",
+  "explanation": "شرح متزن (3-4 جمل) يوضح الأسباب اللغوية والنمطية للنتيجة بدون ذكر نسب مئوية.",
   "factors": ["عامل 1", "عامل 2"],
   "credibility_score": درجة تقديرية من 0 ل 95 (لا تعطِ 100 أبداً، الحد الأقصى 95)
 }}"""
         
         return prompt
     
-    def _get_fallback_explanation(self, is_fake: bool, confidence: float) -> str:
-        """Get fallback explanation if LLM call fails"""
+    def _get_fallback_explanation(
+        self,
+        is_fake: bool,
+        sentiment: str,
+        is_clickbait: bool,
+        entities: dict,
+        news_text: str
+    ) -> str:
+        """Generate dynamic fallback explanation based on actual news features"""
         
-        # Clamp to 99% max
-        confidence_pct = min(99, round(confidence * 100))
+        # Build dynamic analysis components
+        analysis_parts = []
+        
+        # Sentiment analysis
+        sentiment_map = {
+            "positive": "إيجابية",
+            "negative": "سلبية", 
+            "neutral": "محايدة"
+        }
+        sentiment_ar = sentiment_map.get(sentiment, "غير محددة")
+        
+        # Entity analysis
+        total_entities = sum(entities.values())
+        person_count = entities.get("PER", 0)
+        org_count = entities.get("ORG", 0)
+        loc_count = entities.get("LOC", 0)
+        
+        # Text length analysis
+        word_count = len(news_text.split())
+        is_short = word_count < 30
         
         if is_fake:
-            return (f"تشير التحليلات الآلية للنمط اللغوي إلى احتمالية أن يكون الخبر غير دقيق (بنسبة ثقة {confidence_pct}%). "
-                   f"يعتمد هذا التقييم على رصد مؤشرات مثل اللغة المبالغ فيها، أو أسلوب الإثارة العاطفية، "
-                   f"التي غالباً ما تصاحب المحتوى المضلل.")
+            # Build fake news explanation
+            analysis_parts.append("تشير التحليلات الآلية للنمط اللغوي إلى احتمالية أن يكون الخبر غير دقيق")
+            
+            # Add sentiment insight
+            if sentiment == "negative":
+                analysis_parts.append("يتضمن النص لغة سلبية وعاطفية قد تهدف إلى إثارة المشاعر")
+            elif sentiment == "positive":
+                analysis_parts.append("يستخدم النص لغة إيجابية مبالغ فيها قد تهدف إلى التأثير على القارئ")
+            
+            # Add clickbait insight
+            if is_clickbait:
+                analysis_parts.append("يحتوي العنوان على أسلوب الطعم الإعلامي (Clickbait) المصمم لجذب النقرات")
+            
+            # Add entity insight
+            if total_entities == 0:
+                analysis_parts.append("يفتقر النص إلى ذكر أسماء أشخاص أو مؤسسات أو أماكن محددة، مما يضعف مصداقيته")
+            elif person_count > 0 and org_count == 0:
+                analysis_parts.append(f"يذكر النص {person_count} شخص/أشخاص دون الإشارة إلى مصادر أو مؤسسات رسمية")
+            
+            # Add length insight
+            if is_short:
+                analysis_parts.append("قصر النص قد يشير إلى نقص في التفاصيل والمعلومات الموثقة")
+                
         else:
-            return (f"تشير التحليلات الآلية إلى أن الخبر صيغ بلغة متوازنة وموضوعية (بنسبة ثقة {confidence_pct}%). "
-                   f"يخلو النص من مؤشرات المبالغة أو الإثارة المعتادة في الأخبار المضللة، مما يرفع من احتمالية مصداقيته من الناحية اللغوية.")
+            # Build real news explanation
+            analysis_parts.append("تشير التحليلات الآلية إلى أن الخبر صيغ بلغة متوازنة")
+            
+            # Add sentiment insight
+            if sentiment == "neutral":
+                analysis_parts.append("يتميز النص بلغة موضوعية ومحايدة تتناسب مع الأخبار الموثوقة")
+            elif sentiment == "negative" or sentiment == "positive":
+                analysis_parts.append(f"رغم النبرة {sentiment_ar}، يحافظ النص على درجة من التوازن")
+            
+            # Add entity insight
+            if total_entities > 0:
+                entity_details = []
+                if person_count > 0:
+                    entity_details.append(f"{person_count} شخص")
+                if org_count > 0:
+                    entity_details.append(f"{org_count} مؤسسة")
+                if loc_count > 0:
+                    entity_details.append(f"{loc_count} موقع")
+                analysis_parts.append(f"يتضمن النص إشارات واضحة إلى كيانات محددة ({', '.join(entity_details)})")
+            
+            # Add clickbait insight
+            if not is_clickbait:
+                analysis_parts.append("يخلو النص من مؤشرات الإثارة والعناوين المضللة")
+        
+        # Join all parts with proper punctuation
+        return ". ".join(analysis_parts) + "."
     
     def extract_json_from_response(self, text: str) -> Optional[dict]:
         """Extract JSON from LLM response"""
