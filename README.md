@@ -10,12 +10,6 @@
 - Yassein Ahmed
 - Taha Atta
 - Youssif AboZaid
-=======
-**Team:** 4 AI Engineers:
-1- Ibrahim Abdelsattar
-2- Youssif AboZaid
-3-Taha Atta
-4- Yassein Ahmed
 
 ---
 
@@ -712,5 +706,6 @@ Proprietary - Mesdaq AI Project
 **Last Updated:** January 8, 2026  
 **Version:** 1.0.0  
 **Status:** ✅ Complete & Ready for Production
+
 
 
