@@ -17,30 +17,30 @@
 ## 🎯 System Architecture
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                  FRONTEND (React 18)                         │
-│         React + TypeScript + Vite + Tailwind CSS            │
-│              Running on http://localhost:5173                │
-└──────────────────────────────────────────────────────────────┘
+    ┌──────────────────────────────────────────────────────────────┐
+    │                  FRONTEND (React 18)                         │
+    │         React + TypeScript + Vite + Tailwind CSS             │
+    │              Running on http://localhost:5173                │
+    └──────────────────────────────────────────────────────────────┘
                            ↓ HTTP POST/GET
-                  (CORS enabled for localhost)
-┌──────────────────────────────────────────────────────────────┐
-│                  BACKEND (FastAPI)                           │
-│       Python 3.9+ | FastAPI 0.104.1 | Uvicorn              │
-│              Running on http://localhost:8000                │
-└──────────────────────────────────────────────────────────────┘
-    ↙              ↓              ↓              ↘
-┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐
-│ Inference│  │   LLM    │  │ Database │  │  Health  │
-│ Service  │  │ Explainer│  │ Service  │  │  Check   │
-│ (AraBERT)│  │ (Claude) │  │(SQLAlchemy)│
-└──────────┘  └──────────┘  └──────────┘  └──────────┘
-     ↓              ↓              ↓
-┌──────────┐  ┌──────────┐  ┌──────────┐
-│ Fine-tuned│  │OpenRouter│  │ SQLite   │
-│ AraBERT  │  │API Key   │  │Database  │
-│ Model    │  │          │  │          │
-└──────────┘  └──────────┘  └──────────┘
+                    (CORS enabled for localhost)
+    ┌──────────────────────────────────────────────────────────────┐
+    │                  BACKEND (FastAPI)                           │
+    │       Python 3.9+ | FastAPI 0.104.1 | Uvicorn              │
+    │              Running on http://localhost:8000                │
+    └──────────────────────────────────────────────────────────────┘
+        ↙              ↓              ↓              ↘
+    ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐
+    │ Inference│  │   LLM    │  │ Database │  │  Health  │
+    │ Service  │  │ Explainer│  │ Service  │  │  Check   │
+    │ (AraBERT)│  │ (Claude) │  │(SQLAlchemy)│
+    └──────────┘  └──────────┘  └──────────┘  └──────────┘
+         ↓              ↓              ↓
+    ┌──────────┐  ┌──────────┐  ┌──────────┐
+    │Fine-tuned│ │OpenRouter│  │ SQLite   │
+    │ AraBERT  │  │API Key   │  │Database  │
+    │ Model    │  │          │  │          │
+    └──────────┘  └──────────┘  └──────────┘
 ```
 
 ---
