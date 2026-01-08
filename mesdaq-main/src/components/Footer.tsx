@@ -1,116 +1,88 @@
 import { motion } from "framer-motion";
-import { Github, Shield, Heart, ExternalLink } from "lucide-react";
+import { Shield, Layout, Sparkles } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
     <motion.footer
-      className="py-12 border-t border-border bg-card/50 relative overflow-hidden"
+      className="py-8 border-t border-white/5 bg-card/30 backdrop-blur-xl relative overflow-hidden"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.8 }}
     >
-      {/* Animated background */}
-      <motion.div
-        className="absolute top-0 right-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl"
-        animate={{ x: [0, 50, 0], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
+      {/* Background Decorative Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <motion.div
+          className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px]"
+          animate={{ x: [-20, 20, -20], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 15, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-600/5 rounded-full blur-[100px]"
+          animate={{ x: [20, -20, 20], opacity: [0.1, 0.3, 0.1] }}
+          transition={{ duration: 12, repeat: Infinity }}
+        />
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo & Name */}
-          <motion.div
-            className="flex items-center gap-2"
-            whileHover={{ scale: 1.02 }}
-          >
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-4">
+          {/* Brand & Copyright */}
+          <div className="flex items-center gap-4">
             <motion.div
-              className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center relative overflow-hidden"
-              whileHover={{ rotate: -10 }}
-              transition={{ type: "spring", stiffness: 400 }}
+              className="flex items-center gap-2"
+              whileHover={{ scale: 1.02 }}
             >
-              {/* Shimmer effect */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                animate={{ x: ["-100%", "100%"] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-              />
-              <Shield className="w-5 h-5 text-primary-foreground relative z-10" />
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-blue-500 flex items-center justify-center relative overflow-hidden">
+                <Shield className="w-4 h-4 text-primary-foreground relative z-10" />
+              </div>
+              <span className="text-base font-bold text-foreground">
+                مِصداق<span className="gradient-text">AI</span>
+              </span>
             </motion.div>
-            <span className="text-lg font-bold text-foreground">
-              مِصداق<span className="gradient-text">AI</span>
+            <div className="hidden sm:block h-4 w-[1px] bg-white/10" />
+            <p className="text-muted-foreground text-xs font-light">
+              © {currentYear} جميع الحقوق محفوظة
+            </p>
+          </div>
+
+          {/* Project Badge */}
+          <motion.div
+            className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10"
+            whileHover={{ scale: 1.05, borderColor: "rgba(59, 130, 246, 0.3)" }}
+          >
+            <Sparkles className="w-3 h-3 text-primary" />
+            <span className="text-xs font-medium text-foreground/80">
+              مشروع <span className="text-primary font-bold text-xs">NTI</span> النهائي
             </span>
           </motion.div>
 
-          {/* Center Text */}
-          <motion.div
-            className="flex items-center gap-2 text-muted-foreground text-sm"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            <span>صُنع بـ</span>
-            <motion.div
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ duration: 1, repeat: Infinity, repeatDelay: 2 }}
-            >
-              <Heart className="w-4 h-4 text-destructive fill-destructive" />
-            </motion.div>
-            <span>لمشروع</span>
-            <span className="font-semibold text-foreground">NTI</span>
-            <span>النهائي</span>
-          </motion.div>
-
           {/* Links */}
-          <motion.div
-            className="flex items-center gap-6"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
+          <div className="flex items-center gap-6">
             <motion.a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              href="#about"
+              className="text-xs text-muted-foreground hover:text-primary transition-colors"
+              whileHover={{ y: -1 }}
             >
-              <Github className="w-5 h-5" />
-              <span className="text-sm">GitHub</span>
-              <motion.div
-                initial={{ opacity: 0, x: -5 }}
-                whileHover={{ opacity: 1, x: 0 }}
-              >
-                <ExternalLink className="w-3 h-3" />
-              </motion.div>
+              عن المشروع
             </motion.a>
-          </motion.div>
+            <motion.a
+              href="#features"
+              className="text-xs text-muted-foreground hover:text-primary transition-colors"
+              whileHover={{ y: -1 }}
+            >
+              الميزات
+            </motion.a>
+            <motion.a
+              href="#team"
+              className="text-xs text-muted-foreground hover:text-primary transition-colors"
+              whileHover={{ y: -1 }}
+            >
+              الفريق
+            </motion.a>
+          </div>
         </div>
-
-        {/* Copyright */}
-        <motion.div
-          className="mt-8 pt-6 border-t border-border text-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-        >
-          <p className="text-muted-foreground text-sm">
-            © {currentYear} مِصداق AI. جميع الحقوق محفوظة.
-          </p>
-          <motion.p 
-            className="text-primary/60 text-xs mt-2"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            منصة الكشف عن الأخبار الزائفة بالذكاء الاصطناعي
-          </motion.p>
-        </motion.div>
       </div>
     </motion.footer>
   );

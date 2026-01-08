@@ -6,86 +6,104 @@ interface TeamCardProps {
   role: string;
   responsibility: string;
   icon: LucideIcon;
+  image?: string;
   index: number;
 }
 
-const TeamCard = ({ name, role, responsibility, icon: Icon, index }: TeamCardProps) => {
+const TeamCard = ({ name, role, responsibility, icon: Icon, image, index }: TeamCardProps) => {
   return (
     <motion.div
-      className="group relative bg-card rounded-2xl border border-border p-6 hover:border-primary/30 transition-colors duration-500 overflow-hidden"
-      initial={{ opacity: 0, y: 40, rotateY: -15 }}
-      whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
+      className="group relative bg-card/40 backdrop-blur-xl rounded-3xl border border-white/5 p-8 hover:border-primary/40 transition-all duration-700 overflow-hidden shadow-2xl shadow-black/5"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -8, scale: 1.02 }}
+      transition={{ duration: 0.8, delay: index * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+      whileHover={{ y: -12 }}
     >
-      {/* Animated background gradient */}
+      {/* Dynamic Overlay Gradient */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
       />
 
-      {/* Floating particles */}
-      <motion.div
-        className="absolute top-4 left-4 w-2 h-2 rounded-full bg-primary/30"
-        animate={{ y: [0, -10, 0], opacity: [0, 1, 0] }}
-        transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 }}
-      />
+      {/* Modern Background Pattern */}
+      <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700">
+        <Icon className="w-24 h-24 rotate-12" />
+      </div>
 
-      {/* Avatar/Icon */}
-      <motion.div
-        className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center relative"
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        transition={{ type: "spring", stiffness: 400 }}
-      >
-        {/* Glow effect */}
+      {/* Avatar Section with Advanced Ring */}
+      <div className="relative mb-8 flex justify-center">
         <motion.div
-          className="absolute inset-0 rounded-2xl bg-primary/20"
-          animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
-        />
-        <Icon className="w-8 h-8 text-primary relative z-10" />
-      </motion.div>
+          className="relative w-28 h-28 p-1 rounded-full bg-gradient-to-tr from-primary via-blue-500 to-purple-500 overflow-hidden shadow-xl"
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >
+          <div className="w-full h-full rounded-full bg-background overflow-hidden relative">
+            {image ? (
+              <img
+                src={image}
+                alt={name}
+                className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-secondary">
+                <Icon className="w-12 h-12 text-primary" />
+              </div>
+            )}
+          </div>
 
-      {/* Name */}
-      <motion.h3 
-        className="text-lg font-semibold text-foreground text-center mb-1"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.1 + 0.2 }}
-      >
-        {name}
-      </motion.h3>
+          {/* Decorative Ring Glow */}
+          <motion.div
+            className="absolute inset-0 rounded-full border border-white/20"
+            animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.6, 0.3] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          />
+        </motion.div>
 
-      {/* Role */}
-      <motion.p 
-        className="text-primary text-sm font-medium text-center mb-3"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.1 + 0.3 }}
-      >
-        {role}
-      </motion.p>
+        {/* Floating Tag */}
+        <div className="absolute -bottom-2 px-3 py-1 rounded-full bg-primary/10 backdrop-blur-md border border-primary/20">
+          <Icon className="w-3 h-3 text-primary" />
+        </div>
+      </div>
 
-      {/* Responsibility */}
-      <motion.p 
-        className="text-muted-foreground text-sm text-center leading-relaxed"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.1 + 0.4 }}
-      >
-        {responsibility}
-      </motion.p>
+      {/* Information Area */}
+      <div className="relative z-10 text-center">
+        <motion.h3
+          className="text-xl font-bold text-foreground mb-1 tracking-tight"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: index * 0.1 + 0.3 }}
+        >
+          {name}
+        </motion.h3>
 
-      {/* Bottom line animation */}
+        <motion.p
+          className="text-primary font-medium text-xs uppercase tracking-[0.2em] mb-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: index * 0.1 + 0.4 }}
+        >
+          {role}
+        </motion.p>
+
+        <motion.p
+          className="text-muted-foreground/80 text-[13px] leading-relaxed mb-6 font-light"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: index * 0.1 + 0.5 }}
+        >
+          {responsibility}
+        </motion.p>
+      </div>
+
+      {/* Subtle Interaction Line */}
       <motion.div
-        className="absolute bottom-0 right-0 left-0 h-1 bg-gradient-to-l from-primary to-blue-500"
+        className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-blue-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         initial={{ scaleX: 0 }}
         whileHover={{ scaleX: 1 }}
-        transition={{ duration: 0.3 }}
-        style={{ originX: 1 }}
+        style={{ originX: 0 }}
       />
     </motion.div>
   );
@@ -98,31 +116,35 @@ const TeamSection = () => {
       role: "مهندس ذكاء اصطناعي",
       responsibility: "تطوير نماذج الذكاء الاصطناعي وتنفيذ حلول التعلم الآلي لكشف الأخبار الزائفة.",
       icon: Brain,
+      image: "/team/ibrahim.jpg",
     },
     {
       name: "يوسف أبو زيد",
       role: "مهندس ذكاء اصطناعي",
       responsibility: "بناء وتحسين نماذج Transformer لتصنيف النصوص العربية.",
       icon: Cpu,
+      image: "/team/youssef.jpg",
     },
     {
       name: "ياسين",
       role: "مهندس ذكاء اصطناعي",
       responsibility: "تصميم خطوط معالجة اللغة الطبيعية واستخراج السمات لتحليل المصداقية.",
       icon: Search,
+      image: "/team/yassin.jpg",
     },
     {
       name: "طه",
       role: "مهندس ذكاء اصطناعي",
       responsibility: "تنفيذ منطق LLM وتوليد مخرجات الذكاء الاصطناعي القابلة للتفسير.",
       icon: Database,
+      image: "/team/taha.jpg",
     },
   ];
 
   return (
     <section id="team" className="py-24 relative overflow-hidden">
       {/* Background */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/20 to-transparent"
         animate={{ opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 5, repeat: Infinity }}
@@ -149,7 +171,7 @@ const TeamSection = () => {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <motion.span 
+          <motion.span
             className="text-primary font-semibold text-sm uppercase tracking-wider mb-4 block"
             animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Infinity }}
@@ -173,6 +195,7 @@ const TeamSection = () => {
               role={member.role}
               responsibility={member.responsibility}
               icon={member.icon}
+              image={member.image}
               index={index}
             />
           ))}

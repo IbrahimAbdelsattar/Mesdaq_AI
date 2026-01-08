@@ -4,9 +4,9 @@
 
 **Mesdaq AI** is a comprehensive full-stack application for detecting fake news in Arabic language. It combines advanced machine learning with large language models to analyze news credibility, sentiment, and authenticity. The system provides detailed explanations for each classification using AI-powered reasoning.
 
-**Status:** ✅ Production Ready  
+**Status:** ✅ NTI Final Project - Production Ready  
 **Last Updated:** January 8, 2026  
-**Team:** 4 Members (Yusuf S., Member 2, Member 3, Member 4)
+**Team:** 4 AI Engineers (إبراهيم عبدالستار، يوسف أبو زيد، ياسين، طه)
 
 ---
 
@@ -420,6 +420,19 @@ Response: {
   - Launches backend & frontend simultaneously
   - Opens API documentation
 
+### 4. **UI/UX Polish (Latest Updates)**
+- **Team Section Redesign**:
+  - Integrated professional portraits for Ibrahim, Youssef, Yassin, and Taha.
+  - Implemented a premium **Glassmorphism** layout for team cards.
+  - Added advanced micro-animations (grayscale to color, dynamic shadows).
+  - Multi-layer gradient rings for portraits (Primary → Blue → Purple).
+- **Modern Minimal Footer**:
+  - Consolidated multiple rows into a **single elegant line**.
+  - Integrated "NTI Final Project" branding within a specialized badge.
+  - Optimized for a clean, professional finish across all viewports.
+- **Performance**:
+  - Image assets optimized and served via dedicated `/public/team` directory.
+
 ---
 
 ## 🎓 Model Details
@@ -608,26 +621,21 @@ Interactive documentation available at:
 
 ## 👥 Team & Contributions
 
-**Member 1 (Yusuf S.):**
-- Project architect & lead
-- System design & documentation
-- Frontend-backend integration
-- API design & implementation
+**Member 1 (إبراهيم عبدالستار):**
+- AI Engineer
+- Development of AI models and machine learning solutions for fake news detection.
 
-**Member 2:**
-- Data preparation & preprocessing
-- Dataset creation for fine-tuning
+**Member 2 (يوسف أبو زيد):**
+- AI Engineer
+- Building and optimizing Transformer models for Arabic text classification.
 
-**Member 3:**
-- AraBERT fine-tuning
-- Model optimization
-- Performance analysis
+**Member 3 (ياسين):**
+- AI Engineer
+- Designing Natural Language Processing (NLP) pipelines and feature extraction.
 
-**Member 4 (This Session):**
-- LLM integration (Claude 3.5)
-- Credibility scoring algorithm
-- Explanation generation
-- Complete backend implementation
+**Member 4 (طه):**
+- AI Engineer
+- Implementing LLM logic and generating explainable AI outputs.
 
 ---
 
@@ -649,7 +657,7 @@ Proprietary - Mesdaq AI Project
 
 ## ✨ Summary
 
-**Mesdaq AI** is a complete, production-ready fake news detection system for Arabic text. It leverages state-of-the-art machine learning (AraBERT) combined with advanced LLMs (Claude 3.5) to provide accurate classifications with detailed, explainable reasoning. The system is fully integrated from frontend to backend, with comprehensive error handling, database persistence, and API documentation.
+**Mesdaq AI** is a complete, production-ready fake news detection system developed as an **NTI Final Project**. It leverages state-of-the-art machine learning (AraBERT) combined with advanced LLMs (Claude 3.5) to provide accurate classifications with detailed, explainable reasoning. The system features a high-end, professional UI with glassmorphism aesthetics and real-time analysis capabilities.
 
 **Key Achievements:**
 - ✅ Full-stack implementation (React + FastAPI)
