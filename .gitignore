@@ -30,4 +30,4 @@ build/
 Thumbs.db
 
 # Large Model Files (Unless utilizing Git LFS, usually better to ignore large/binary model weights if they are too big for standard git, but here we might need them if not stored elsewhere. Assuming user wants to push code. If model.safetensors is >100MB, standard GitHub push will fail without LFS. I will comment it out by default but user should be aware)
-# model.safetensors
+model.safetensors
