@@ -9,7 +9,7 @@
 - Ibrahim Abdelsattar
 - Yassein Ahmed
 - Taha Atta
-- Youssif AboZaid
+- Yusuf Abozeid
 
 ---
 
