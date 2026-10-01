@@ -29,6 +29,72 @@ An Arabic news credibility analysis prototype combining a local BERT-family mode
 
 The inference code assumes output index `0` is fake and index `1` is real, while sentiment extraction reuses the same model with a separate label interpretation. Verify the trained label mapping before interpreting results. Optional NER needs spaCy and `xx_ent_wiki_sm`, which are not in the main requirements. The prototype does not independently verify news against external evidence.
 
+## UML diagrams
+
+### Persistence classes
+
+The UML class diagram shows selected SQLAlchemy entities. Prediction and explanation records reference a single analysis; daily statistics are stored separately.
+
+```mermaid
+classDiagram
+    direction TB
+    class Analysis {
+        +int id
+        +str news_text
+        +bool is_fake
+        +int credibility_score
+        +datetime created_at
+    }
+    class Prediction {
+        +int analysis_id
+        +float model_confidence
+        +float logits_fake
+        +float logits_real
+        +str sentiment
+        +bool is_clickbait
+    }
+    class ExplanationData {
+        +int analysis_id
+        +str llm_model
+        +str llm_provider
+        +str raw_explanation
+        +int prompt_tokens
+        +int completion_tokens
+    }
+    class DailyStats {
+        <<aggregate>>
+    }
+    Analysis "1" *-- "0..1" Prediction : prediction
+    Analysis "1" *-- "0..1" ExplanationData : explanation_data
+    DailyStats ..> Analysis : summarizes daily activity
+```
+
+### News analysis sequence
+
+Analysis depends on local classifier weights. The explanation service can fall back locally, but that fallback does not replace the missing classifier.
+
+```mermaid
+sequenceDiagram
+    participant UI as React frontend
+    participant API as FastAPI main.py
+    participant Model as Local classifier and features
+    participant Explain as LLM explanation service
+    participant DB as DatabaseService
+    UI->>API: POST /analyze with news text
+    alt Local classifier unavailable
+        API-->>UI: 503 model unavailable
+    else Classifier loaded
+        API->>Model: Classify text and extract signals
+        Model-->>API: Scores, sentiment, clickbait, and entity counts
+        API->>Explain: Generate explanation and credibility score
+        Explain->>Explain: Use provider or local explanation fallback
+        Explain-->>API: Explanation and score
+        API->>DB: Persist analysis and prediction metadata
+        DB-->>API: Saved analysis
+        API-->>UI: Analysis result
+    end
+```
+
 ## Getting started
 
 ```bash
